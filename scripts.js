@@ -1,73 +1,53 @@
-function getComputerChoice() {
+getComputerChoice = () => {
+  let randomNumber = Math.floor(Math.random() * 3);
+
   const choices = ["rock", "paper", "scissors"];
-  const randomNumber = Math.floor(Math.random() * 3);
+
   return choices[randomNumber];
-}
+};
 
-let computerChoice = getComputerChoice();
-
-let userChoice = prompt("Choose rock, paper, or scissors.").toLowerCase();
-console.log(userChoice);
-console.log(computerChoice);
-
-function determineWinner(userChoice, computerChoice) {
-  if (userChoice === computerChoice) {
-    return "The game was a tie!";
+playRound = (computerChoice, userChoice) => {
+  if (computerChoice === userChoice) {
+    return `It's a draw! You threw ${userChoice} and the computer threw ${computerChoice}`;
   } else if (
-    (userChoice === "rock" && computerChoice === "paper") ||
-    (userChoice === "paper" && computerChoice === "scissors") ||
-    (userChoice === "scissors" && computerChoice === "rock")
+    (computerChoice === "rock" && userChoice === "paper") ||
+    (computerChoice === "paper" && userChoice === "scissors") ||
+    (computerChoice === "scissors" && userChoice === "rock")
   ) {
-    return "Computer wins!";
+    return `Congrats, you won! You threw ${userChoice} and the computer threw ${computerChoice}`;
   } else {
-    return "You win!";
+    return `Boo, you lost! You threw ${userChoice} and the computer threw ${computerChoice}`;
   }
-}
+};
 
-function playGame() {
-  let playerScore = 0;
-  let computerScore = 0;
-  for (let i = 0; i <= 25; i++) {
-    let result = determineWinner(userChoice, computerChoice);
-    console.log(result);
+let wins = 0;
+let losses = 0;
+let draws = 0;
 
-    if (playerScore === 3 || computerScore === 3) {
-      break;
-    }
-
-    if (result === "You win!") {
-      playerScore++;
-    } else if (result === "Computer wins!") {
-      computerScore++;
-    }
-
-    console.log(
-      "Player Score " + playerScore,
-      "Computer Score " + computerScore
-    );
-
-    if (playerScore === 3 || computerScore === 3) {
-      break;
-    }
-
-    // new user choice
-    userChoice = prompt("Choose rock, paper, or scissors.").toLowerCase();
-    console.log(userChoice);
-    // new computer choice
+playGame = () => {
+  for (let i = 0; wins < 3 && losses < 3; i++) {
+    userChoiceInput = prompt("Choose what you throw");
+    userChoice = userChoiceInput.toLowerCase();
     computerChoice = getComputerChoice();
-    console.log(computerChoice);
-  }
-  endGame(playerScore, computerScore);
-}
+    result = playRound(computerChoice, userChoice);
 
-function endGame(playerScore, computerScore) {
-  if (playerScore > computerScore) {
-    console.log("You won the game! " + playerScore + " " + computerScore);
-  } else if (playerScore < computerScore) {
-    console.log("You lost the game! " + playerScore + " " + computerScore);
-  } else {
-    console.log("The game was a tie! " + playerScore + " " + computerScore);
+    if (result.includes("won")) {
+      wins++;
+    } else if (result.includes("lost")) {
+      losses++;
+    } else {
+      draws++;
+    }
+    console.log(result);
+    console.log("Wins: ", wins);
+    console.log("Losses: ", losses);
+    console.log("Draws: ", draws);
+    if (wins > 2) {
+      console.log("You won!");
+    } else if (losses > 2) {
+      console.log("You lost!");
+    }
   }
-}
+};
 
 playGame();
