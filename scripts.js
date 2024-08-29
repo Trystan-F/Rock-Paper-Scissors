@@ -1,53 +1,47 @@
+// Rock Paper Scissors
+
 getComputerChoice = () => {
-  let randomNumber = Math.floor(Math.random() * 3);
-
-  const choices = ["rock", "paper", "scissors"];
-
-  return choices[randomNumber];
+  const choices = ['rock', 'paper', 'scissors'];
+  let pcChoice = Math.floor(Math.random() * choices.length);
+  return choices[pcChoice];
 };
 
-playRound = (computerChoice, userChoice) => {
-  if (computerChoice === userChoice) {
-    return `It's a draw! You threw ${userChoice} and the computer threw ${computerChoice}`;
+getPlayerChoice = () => {
+  let userChoice = prompt('rock, paper or scissors?');
+  return userChoice
+  
+};
+
+const computerChoice = getComputerChoice()
+const playerChoice = getPlayerChoice().toLowerCase();
+
+playerScore = 0;
+computerScore = 0;
+
+playRound = (computerChoice, playerChoice) =>  {
+  if (computerChoice === playerChoice) {
+    console.log("It's a draw! You both threw", computerChoice)
   } else if (
-    (computerChoice === "rock" && userChoice === "paper") ||
-    (computerChoice === "paper" && userChoice === "scissors") ||
-    (computerChoice === "scissors" && userChoice === "rock")
+    (computerChoice === 'rock' && playerChoice === 'paper') ||
+    (computerChoice === 'paper' && playerChoice === 'scissors') ||
+    (computerChoice === 'scissors' && playerChoice === 'rock')
   ) {
-    return `Congrats, you won! You threw ${userChoice} and the computer threw ${computerChoice}`;
+    console.log(`You won! You threw ${playerChoice} and the computer threw ${computerChoice}`)
+    playerScore ++
   } else {
-    return `Boo, you lost! You threw ${userChoice} and the computer threw ${computerChoice}`;
+    console.log(`You lost! You threw ${playerChoice} and the computer threw ${computerChoice}`)
+    computerScore ++
+  }
+  console.log(`Player Score: ${playerScore} Computer Score: ${computerScore}`)
+}
+
+const playGame = () => {
+ for (let i = 0; i < 5; i++) {
+  const computerChoice = getComputerChoice();
+  const playerChoice = getPlayerChoice().toLowerCase()
+  playRound(computerChoice, playerChoice);
   }
 };
 
-let wins = 0;
-let losses = 0;
-let draws = 0;
-
-playGame = () => {
-  for (let i = 0; wins < 3 && losses < 3; i++) {
-    userChoiceInput = prompt("Choose what you throw");
-    userChoice = userChoiceInput.toLowerCase();
-    computerChoice = getComputerChoice();
-    result = playRound(computerChoice, userChoice);
-
-    if (result.includes("won")) {
-      wins++;
-    } else if (result.includes("lost")) {
-      losses++;
-    } else {
-      draws++;
-    }
-    console.log(result);
-    console.log("Wins: ", wins);
-    console.log("Losses: ", losses);
-    console.log("Draws: ", draws);
-    if (wins > 2) {
-      console.log("You won!");
-    } else if (losses > 2) {
-      console.log("You lost!");
-    }
-  }
-};
 
 playGame();
